@@ -1,0 +1,26 @@
+step 1 server side rendering
+use this page down side
+
+// pages/posts/[id].js
+
+function Post({ myprops }) {
+let [blog, setblog] = useState(myprops)  // set a props 
+  return (
+    <div>
+      <h1>{blog.title}</h1>
+      <p>{blog.content}</p>
+    </div>
+  );
+}
+
+export async function getServerSideProps(context) {
+   // fetch a data 
+let data = await fetch("your api")
+let myprops = await data.json()
+
+  return {
+    props: { myprops },
+  };
+}
+
+export default Post;
