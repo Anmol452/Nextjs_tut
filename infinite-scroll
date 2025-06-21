@@ -1,0 +1,13 @@
+wab :- https://www.npmjs.com/package/react-infinite-scroll-component
+
+1) installation :-
+ npm install --save react-infinite-scroll-component
+  or
+  yarn add react-infinite-scroll-component
+
+
+2) import :-
+  import InfiniteScroll from 'react-infinite-scroll-component';
+
+3) use :-
+copy url and use exp with codes
