@@ -1,0 +1,25 @@
+zod :- https://github.com/colinhacks/zod?tab=readme-ov-fil
+
+import * as z from "zod/v4";
+
+const Player = z.object({
+  username: z.string(),
+  xp: z.number(),
+});
+
+
+all types 
+
+// primitive types
+z.string();
+z.number();
+z.bigint();
+z.boolean();
+z.symbol();
+z.undefined();
+z.null();
+_____________________________________________
+z.coerce.string();    // String(input)
+z.coerce.number();    // Number(input)
+z.coerce.boolean();   // Boolean(input)
+z.coerce.bigint();    // BigInt(input)
