@@ -1,12 +1,44 @@
+zod use for form validation schema pages
 zod :- https://github.com/colinhacks/zod?tab=readme-ov-fil
 
-import * as z from "zod/v4";
-
+import {z} from "zod";
+exp for wab:-
 const Player = z.object({
   username: z.string(),
   xp: z.number(),
 });
+__________________________________________________
+___________________use_______________________________
 
+use for realtime usring :-
+
+import {z} from "zod";
+
+export const usernameValidation = z
+    .string()
+    .min(2,"Username must be atleast 2 characters")
+    .max(20, "Usernane must be no more than 20 characters")
+    .regex(/^[a-zA-Z0-9_]+$/,"Username must not contain special Characters")
+
+
+    export const signUpschems = z.object({
+      username: usernameValidation,
+      email: z.string().email({message: "Invalid email address"}),
+      password: z.string().min(6 ,{message: "your password must be 6 characters"})
+    })
+
+__________________________________________________
+__________________________________________________
+otp validation verifySchemas page 
+import {z} from 'zod'
+
+export const verifySchemas = z.object({
+    code: z.string().length(6,"verification code must be 6 digits")
+})
+
+__________________________________________________
+
+__________________________________________________
 
 all types 
 
@@ -18,8 +50,52 @@ z.boolean();
 z.symbol();
 z.undefined();
 z.null();
+z.void(); // equivalent to z.undefined()
 _____________________________________________
 z.coerce.string();    // String(input)
 z.coerce.number();    // Number(input)
 z.coerce.boolean();   // Boolean(input)
 z.coerce.bigint();    // BigInt(input)
+
+__________________________________________________
+colors.values; // => Set<"red" | "green" | "blue">
+
+__________________________________________________
+z.string().max(5);
+z.string().min(5);
+z.string().length(5);
+z.string().regex(/^[a-z]+$/);
+z.string().startsWith("aaa");
+z.string().endsWith("zzz");
+z.string().includes("---");
+z.string().uppercase();
+z.string().lowercase();
+__________________________________________________
+
+z.string().trim(); // trim whitespace
+z.string().toLowerCase(); // toLowerCase
+z.string().toUpperCase(); // toUpperCase
+__________________________________________________
+
+z.email();
+z.uuid();
+z.url();
+z.emoji();         // validates a single emoji character
+z.base64();
+z.base64url();
+z.nanoid();
+z.cuid();
+z.cuid2();
+z.ulid();
+z.ipv4();
+z.ipv6();
+z.cidrv4();        // ipv4 CIDR block
+z.cidrv6();        // ipv6 CIDR block
+z.iso.date();
+z.iso.time();
+z.iso.datetime();
+z.iso.duration();
+
+
+_____________________________________________validation
+/^(?!\.)(?!.*\.\.)([a-z0-9_'+\-\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\-]*\.)+[a-z]{2,}$/i
