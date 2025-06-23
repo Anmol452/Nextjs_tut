@@ -1,7 +1,16 @@
 video : - https://www.youtube.com/watch?v=eubuhK_1NN0&t=389s
 
-resend.com 
+resend.com :- https://resend.com/docs/send-with-nextjs
 
-https://resend.com/emails  
 
-no domain not use
+npm install resend
+stap 1)
+src/lib/resend.ts 
+import { Resend } from 'resend';
+
+export const resend = new Resend(process.env.resend_Api_key);
+_____________________________________________________________________
+
+stap 2)
+cerate helpers folder
+helpers/sendVerificationEmail.ts
