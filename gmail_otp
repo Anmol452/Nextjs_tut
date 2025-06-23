@@ -4,13 +4,114 @@ resend.com :- https://resend.com/docs/send-with-nextjs
 
 
 npm install resend
+
 stap 1)
-src/lib/resend.ts 
+#src/lib/resend.ts 
 import { Resend } from 'resend';
 
 export const resend = new Resend(process.env.resend_Api_key);
 _____________________________________________________________________
 
 stap 2)
-cerate helpers folder
-helpers/sendVerificationEmail.ts
+#cerate src/helpers folder
+#helpers/sendVerificationEmail.ts
+
+code:-
+
+import { resend } from "@/lib/resend";
+import varificationEmail from '../../email/VerificationEmail';
+import { ApiRespones } from "@/types/ApiRespones";
+
+export async function sendVarificationEmail(
+    email : string,
+    username: string,
+    verifyCode: string
+):Promise<ApiRespones>{
+
+    try {
+        await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: email,
+            subject: 'sms sender | verification code',
+            react: varificationEmail({username, otp: verifyCode}),
+        });
+        return {success: true, message :"verification email send successfully"}
+    } catch (emailError) {
+        console.error("Error sending verification code", emailError)
+        return {success: false, message :"Failed to send verification email"}
+    }
+}
+
+
+_____________________________________________________________________
+
+stap 3)
+wab :- https://react.email/docs/integrations/resend
+npm i react-email
+npx create-email@latest
+
+#cerate a global email folder
+#email/VerificationEmail.tsx
+
+code :-
+import {
+    Html,
+    Head,
+    Font,
+    Ppreview, 
+    Heading, 
+    Row,
+    Section,
+    text,
+    Button,
+} from '@react-eamil/components';
+
+interface varificationEmailprops{
+    username: string;
+    otp: string;
+}
+
+
+export default function varificationEmail({username, otp}:varificationEmailprops){
+    return(
+        <Html lang="en" dir='ltr'>
+        <Head>
+            <title>Varification Code</title>
+        </Head>
+     
+        <Preview>Hear&apos;s your varification Code: {otp} </Preview>
+         <Section>
+            <Row>
+                <Heading>Hello {username}</Heading>
+            </Row>
+            <Row>
+                <Text>
+                    Thanks you for registering. Please use the following varification code to comlpete your registration
+                </Text>
+            </Row>
+            <Row>{otp}</Row>
+            <Row>
+                <Text>
+                    If you did not request this code, please ignore this email
+                </Text></Row>
+         </Section>
+
+        </Html>
+    );
+}
+
+
+_____________________________________________________________________
+stap 4) 
+#craete a folder src/types
+#type/ApiRespones.ts
+import { Message } from "@/model/user";
+
+export interface ApiRespones{
+    success: boolean;
+    message: string;
+    isAccesptingMessage?: boolean
+    messages?: Array<Message>
+}
+
+
