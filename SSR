@@ -1,0 +1,53 @@
+step 1 server side rendering
+
+// pages/posts/[id].js
+
+
+async function getBlog(blog_no: number): Promise<BlogPostBody> {
+  const heads = await headers(); // ✅ await here
+  const host = heads.get('x-forwarded-host') || 'localhost:9002';
+  const protocol = host.includes('localhost') ? 'http' : 'https';
+
+  const forwardedFor = headers().get('x-forwarded-for');
+  const ip = forwardedFor?.split(',')[0] || 'IP not found';
+
+  const res = await fetch(`${protocol}://${host}/api/blogviews?blog_no=${blog_no}`, {
+    cache: 'no-store', // disable caching for SSR
+    headers: {
+      'X-Client-IP': ip,
+    },
+  });
+
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch blog');
+  }
+
+  const json = await res.json();
+  const blog = await json.blog;
+
+  return { blog };
+}
+
+
+
+
+
+
+export default async function BlogPostPage({ params }: PageProps) {
+  const blog_no = Number(params.blog_no); // ✅ correct
+  const postdata = await getBlog(blog_no);
+  const blog = postdata.blog;
+
+
+  return (
+    <div>
+      <h1>{blog.title}</h1>
+      <p>{blog.content}</p>
+    </div>
+  );
+}
+
+
+
+export default Post;
